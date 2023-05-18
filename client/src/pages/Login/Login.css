@@ -1,12 +1,14 @@
 .main{
     background-color: aliceblue;
+    height: 800px;
   }
   .btnm{
       margin-top: 20px;
       margin-bottom: 15px;
   }
   .formdiv{
-      margin-top: 10%;
+      margin-top: 5%;
+      /* height: 200px; */
       /* background-color: aliceblue; */
   }
   .tabs .tab a {
@@ -35,35 +37,16 @@
   
   
   
-    .vect-img{
-      margin-top:5%;
-      /* background-color: aliceblue; */
-      
-    }
-    .img1{
-      width: 100%;
-      /* height: 60%; */
-    }
-    .title{
-        color:white;
-        font-family:'Montserrat', sans-serif;
-        font-size:40px;
-        /* src :url("../../Content/LANEUP__.ttf"); */
-        margin-top: 8%;
-        font-weight:bold;
-        /* font-weight: lighter; */
-        /* background-color: aqua; */
-    }
-    .subtitle{
-      color:#76ff03;
-      /* font-family:'Montserrat', sans-serif; */
-      font-size: 18px;
-  
-    }
+    
     
     .maindiv{
         /* height: px; */
         /* background-color: #26a69a; */
     }
     
+    .lgin{
+      width: 50%;
+    }
+    .first{
       
+    }

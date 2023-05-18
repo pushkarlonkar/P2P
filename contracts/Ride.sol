@@ -21,8 +21,13 @@ contract Ride is Ownable, Driver , Customer{
         string _name;
         string _email;
         string _password;
-        uint _phone;
+        string _address;
+        string _aadhar;
+        uint _isDriver;
+        string _vehicleNo;
+        string _vehicle;
         address _accAddress;
+
         // should you store the address or not that is the quest
     }
     
@@ -46,7 +51,7 @@ contract Ride is Ownable, Driver , Customer{
         address driver ;
         address customer ;
         RIDE_STATUS status;
-        RIDE_DETAILS ride; 
+        string ride; 
         uint256 timestamp;
     }
 
@@ -72,24 +77,36 @@ contract Ride is Ownable, Driver , Customer{
     }
 
 
-    function registerCitizen(string memory name,string memory email ,string memory password ,uint phone ) public {
+    function registerCitizen(string memory name,string memory email ,string memory password ,string memory addr,string memory aadhar,uint isDriver,string memory vehicleNo,string memory vehicle ) public {
         
         userCount++;
         loginData[userCount]._name = name;
         loginData[userCount]._email = email;
         loginData[userCount]._password = password;
-        loginData[userCount]._phone = phone ;
+        loginData[userCount]._address = addr ;
         loginData[userCount]._accAddress = msg.sender;
+        loginData[userCount]._vehicleNo = vehicleNo;
+        loginData[userCount]._vehicle = vehicle;
+        loginData[userCount]._isDriver = isDriver;
         // should you store the address of the curr user 
         // create a mapping for address to password
         loginData[userCount]._citId = userCount;
         //increment the citizencount then the value 
+        if(isDriver>0){
+            createDriver(name,name, addr, aadhar,name,name);
+        }else{
+            createCustomer(name, email,name,aadhar,name );
+        }
 
     }
+    // function viewCitizen(uint cid) public view returns(USER memory){
+    //     return loginData[cid];
+    // }
 
-    function viewCitizen(uint cid) public view returns(string memory,string memory,uint,address){
-        return(loginData[cid]._name,loginData[cid]._email,loginData[cid]._phone,loginData[cid]._accAddress);
-    }
+    // function viewCitizen(uint cid) public view returns(string memory,string memory,uint,address){
+    //     return(loginData[userCount]._name,loginData[userCount]._email,loginData[userCount]._password,loginData[userCount]._address,loginData[userCount]._accAddress,loginData[userCount]._vehicleNo,loginData[userCount]._vehicle,loginData[userCount]._isDriver);
+    // }
+    
     function LoginCitizen(string memory email,string memory password) public view returns(uint){
         // start with checking if email exists in logindata 
         // check for authentication 
@@ -107,7 +124,7 @@ contract Ride is Ownable, Driver , Customer{
 
 
 
-    function postRide(RIDE_DETAILS memory _rideDetails)
+    function postRide(string memory _rideDetails)
         public
         returns (uint256)
     {
@@ -131,7 +148,7 @@ contract Ride is Ownable, Driver , Customer{
 
     function bookRide(uint256 _rideId) public checkRide(_rideId){
         // this needs to be a customer to get the details 
-        require(customers[msg.sender].id>0 ,"No registered Customer Found !!");
+        // require(customers[msg.sender].id>0 ,"No registered Customer Found !!");
         require(Rides[_rideId].status==RIDE_STATUS.POSTED," Ride Already Booked !");
 
         Rides[_rideId].customer = msg.sender;
@@ -140,7 +157,7 @@ contract Ride is Ownable, Driver , Customer{
         // return _rideId;
     }
 
-    function getAllRides(uint256[] memory rideIds)
+    function getAllRides()
         public
         view
         returns (RIDE[] memory)
@@ -148,8 +165,8 @@ contract Ride is Ownable, Driver , Customer{
         RIDE[] memory allRides;
         uint256 count = 0;
 
-        for (uint256 i = 0; i < rideIds.length; i++) {
-            uint256 rideId = rideIds[i];
+        for (uint256 i = 1; i <= rideCount; i++) {
+            uint256 rideId = i;
             allRides[count] = Rides[rideId];
             count++;
         }
@@ -269,6 +286,9 @@ contract Ride is Ownable, Driver , Customer{
 
     function fetchAuction(uint256 _auctionId) public view returns (AUCTION memory) {
         return Auctions[_auctionId];
+    }
+    function getAuctionCount() public view returns(uint256) {
+        return rideCount;
     }
 
 }

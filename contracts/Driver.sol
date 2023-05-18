@@ -50,5 +50,6 @@ contract Driver is Ownable {
         DRIVER memory driver = drivers[_walletAddr];
         return driver;
     }
+
 }
     
